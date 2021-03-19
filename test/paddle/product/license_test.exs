@@ -1,4 +1,4 @@
-defmodule Paddle.Product.LicenseTest do
+defmodule Paddle.LicenseTest do
   use ExUnit.Case
 
   setup do
@@ -18,14 +18,17 @@ defmodule Paddle.Product.LicenseTest do
         }
       ))
     end)
+
     params = %{
       product_id: 1234,
       allowed_uses: 10,
       expires_at: ~D[2018-10-10]
     }
-    assert {:ok, %Paddle.Product.License{
-        license_code: "2DEDF6A4-86420251-0927C417-43523113-CA22C29B",
-        expires_at: ~D"2018-10-10"
-    }} == Paddle.Product.License.generate(params)
+
+    assert {:ok,
+            %Paddle.License{
+              license_code: "2DEDF6A4-86420251-0927C417-43523113-CA22C29B",
+              expires_at: ~D"2018-10-10"
+            }} == Paddle.License.generate(params)
   end
 end

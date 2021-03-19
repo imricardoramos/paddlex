@@ -1,2 +1,0 @@
-defmodule PaddleTest do
-end

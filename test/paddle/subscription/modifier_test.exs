@@ -1,4 +1,4 @@
-defmodule Paddle.Subscription.ModifierTest do
+defmodule Paddle.ModifierTest do
   use ExUnit.Case
 
   setup do
@@ -18,16 +18,19 @@ defmodule Paddle.Subscription.ModifierTest do
         }
       ))
     end)
+
     params = %{
       subscription_id: 12345,
       modifier_recurring: true,
       modifier_amount: 20,
       modifier_description: "TestModifier"
     }
-    assert {:ok, %{
-      subscription_id: 12345,
-      modifier_id: 10
-    }} == Paddle.Subscription.Modifier.create(params)
+
+    assert {:ok,
+            %{
+              subscription_id: 12345,
+              modifier_id: 10
+            }} == Paddle.Modifier.create(params)
   end
 
   test "list modifiers", %{bypass: bypass} do
@@ -48,14 +51,18 @@ defmodule Paddle.Subscription.ModifierTest do
         }
       ))
     end)
-    assert {:ok, [%Paddle.Subscription.Modifier{
-      modifier_id: 10,
-      subscription_id: 12345,
-      amount: "1.000",
-      currency: "USD",
-      is_recurring: false,
-      description: "Example Modifier"
-    }]} == Paddle.Subscription.Modifier.list()
+
+    assert {:ok,
+            [
+              %Paddle.Modifier{
+                modifier_id: 10,
+                subscription_id: 12345,
+                amount: "1.000",
+                currency: "USD",
+                is_recurring: false,
+                description: "Example Modifier"
+              }
+            ]} == Paddle.Modifier.list()
   end
 
   test "delete modifier", %{bypass: bypass} do
@@ -66,6 +73,7 @@ defmodule Paddle.Subscription.ModifierTest do
         }
       ))
     end)
-    assert {:ok, nil} == Paddle.Subscription.Modifier.delete(10)
+
+    assert {:ok, nil} == Paddle.Modifier.delete(10)
   end
 end

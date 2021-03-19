@@ -1,4 +1,4 @@
-defmodule Paddle.Subscription.PlanTest do
+defmodule Paddle.PlanTest do
   use ExUnit.Case
 
   setup do
@@ -29,15 +29,19 @@ defmodule Paddle.Subscription.PlanTest do
         }
       ))
     end)
-    assert {:ok, [%Paddle.Subscription.Plan{
-      billing_period: 1,
-      billing_type: "day",
-      id: 9636,
-      initial_price: %{"USD" => "0.00"},
-      name: "Test",
-      recurring_price: %{"USD" => "10.00"},
-      trial_days: 0
-    }]} == Paddle.Subscription.Plan.list()
+
+    assert {:ok,
+            [
+              %Paddle.Plan{
+                billing_period: 1,
+                billing_type: "day",
+                id: 9636,
+                initial_price: %{"USD" => "0.00"},
+                name: "Test",
+                recurring_price: %{"USD" => "10.00"},
+                trial_days: 0
+              }
+            ]} == Paddle.Plan.list()
   end
 
   test "create plan", %{bypass: bypass} do
@@ -51,6 +55,7 @@ defmodule Paddle.Subscription.PlanTest do
         }
       ))
     end)
+
     params = %{
       main_currency_code: "USD",
       plan_length: 123,
@@ -59,9 +64,9 @@ defmodule Paddle.Subscription.PlanTest do
       plan_type: "day",
       recurring_price_eur: "10.00",
       recurring_price_gbp: "20.00",
-      recurring_price_usd: "30.00",
+      recurring_price_usd: "30.00"
     }
-    assert {:ok, 502198} == Paddle.Subscription.Plan.create(params)
+
+    assert {:ok, 502_198} == Paddle.Plan.create(params)
   end
-  
 end

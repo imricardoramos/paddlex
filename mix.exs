@@ -7,7 +7,40 @@ defmodule Paddle.MixProject do
       version: "0.1.0",
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+
+      # Docs
+      source_url: "https://github.com/imricardoramos/paddlex",
+      homepage_url: "/",
+      docs: [
+        main: "readme",
+        groups_for_modules: [
+          Alert: [
+            Paddle.Webhook
+          ],
+          Checkout: [
+            Paddle.OrderDetails,
+            Paddle.Price,
+            Paddle.UserHistory
+          ],
+          Product: [
+            Paddle.Coupon,
+            Paddle.License,
+            Paddle.PayLink,
+            Paddle.Product,
+            Paddle.ProductPayment,
+            Paddle.Transaction
+          ],
+          Subscription: [
+            Paddle.Subscriber,
+            Paddle.Plan,
+            Paddle.SubscriptionPayment,
+            Paddle.OneOffCharge,
+            Paddle.Modifier
+          ]
+        ],
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -24,9 +57,9 @@ defmodule Paddle.MixProject do
       {:peppermint, "~> 0.3.0"},
       {:castore, "~> 0.1.0"},
       {:jason, "~> 1.2"},
-      {:bypass, "~> 2.1", only: [:test]}
-      # {:dep_from_hexpm, "~> 0.3.0"},
-      # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
+      {:bypass, "~> 2.1", only: [:test]},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
 end

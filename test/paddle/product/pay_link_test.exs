@@ -1,4 +1,4 @@
-defmodule Paddle.Product.PayLinkTest do
+defmodule Paddle.PayLinkTest do
   use ExUnit.Case
 
   setup do
@@ -24,6 +24,6 @@ defmodule Paddle.Product.PayLinkTest do
   #     expires_at: ~D[2018-10-10]
   #   }
   #   assert {:ok, "https://checkout.paddle.com/checkout/custom/eyJ0IjoiUHJvZ……"}
-  #     == Paddle.Product.PayLink.generate(%{})
+  #     == Paddle.PayLink.generate(%{})
   # end
 end

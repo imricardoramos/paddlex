@@ -1,4 +1,4 @@
-defmodule Paddle.Subscription.OneOffChargeTest do
+defmodule Paddle.OneOffChargeTest do
   use ExUnit.Case
 
   setup do
@@ -22,13 +22,15 @@ defmodule Paddle.Subscription.OneOffChargeTest do
         }
       ))
     end)
-    assert {:ok, %Paddle.Subscription.OneOffCharge{
-      invoice_id: 1,
-      subscription_id: 1,
-      amount: "10.00",
-      currency: "USD",
-      payment_date: ~D"2018-09-21",
-      receipt_url: "https://my.paddle.com/receipt/1-1/3-chre8a53a2724c6-42781cb91a"
-    }} == Paddle.Subscription.OneOffCharge.create(2746, 10, "TestCharge")
+
+    assert {:ok,
+            %Paddle.OneOffCharge{
+              invoice_id: 1,
+              subscription_id: 1,
+              amount: "10.00",
+              currency: "USD",
+              payment_date: ~D"2018-09-21",
+              receipt_url: "https://my.paddle.com/receipt/1-1/3-chre8a53a2724c6-42781cb91a"
+            }} == Paddle.OneOffCharge.create(2746, 10, "TestCharge")
   end
 end

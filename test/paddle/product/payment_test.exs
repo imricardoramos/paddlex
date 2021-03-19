@@ -1,4 +1,4 @@
-defmodule Paddle.Product.PaymentTest do
+defmodule Paddle.ProductPaymentTest do
   use ExUnit.Case
 
   setup do
@@ -17,7 +17,8 @@ defmodule Paddle.Product.PaymentTest do
         }
       ))
     end)
-    assert {:ok, 12345}
-      == Paddle.Product.Payment.refund(10)
+
+    assert {:ok, 12345} ==
+             Paddle.ProductPayment.refund(10)
   end
 end

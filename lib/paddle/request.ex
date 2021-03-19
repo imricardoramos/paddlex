@@ -1,5 +1,4 @@
 defmodule Paddle.Request do
-
   @doc """
   Creates a new request
   """
@@ -7,20 +6,19 @@ defmodule Paddle.Request do
     url = vendors_base_url() <> path
     config = Paddle.Config.resolve() |> Map.take([:vendor_id, :vendor_auth_code])
     params = Map.merge(config, params)
-    # IO.inspect(url, label: "url")
-    # IO.inspect(params, label: "params")
 
-    request = Peppermint.post(
-      url,
-      params: params,
-      headers: [{"Content-Type", "application/x-www-form-urlencoded"}])
+    request =
+      Peppermint.post(
+        url,
+        params: params,
+        headers: [{"Content-Type", "application/x-www-form-urlencoded"}]
+      )
 
     case request do
-      {:ok, response} -> 
-        #IO.inspect(response, label: "response")
+      {:ok, response} ->
         parse_response_body(response.body)
+
       {:error, reason} ->
-        #IO.inspect(reason, label: "reason")
         {:error, reason}
     end
   end
@@ -29,18 +27,17 @@ defmodule Paddle.Request do
     url = checkout_base_url() <> path
 
     case Peppermint.get(url, params: params) do
-      {:ok, response} -> 
-        IO.inspect(response, label: "response")
+      {:ok, response} ->
         parse_response_body(response.body)
+
       {:error, reason} ->
-        #IO.inspect(reason, label: "reason")
         {:error, reason}
     end
   end
 
   defp parse_response_body(request_body) do
     body = Jason.decode!(request_body)
-    IO.inspect(body)
+
     case body do
       %{"success" => true, "response" => response} -> {:ok, response}
       %{"success" => true, "message" => message} -> {:ok, message}
@@ -64,6 +61,7 @@ defmodule Paddle.Request do
       %{environment: :test} -> "http://localhost:12345/api"
     end
   end
+
   defp checkout_base_url do
     case Paddle.Config.resolve() do
       %{environment: :production} -> "https://checkout.paddle.com/api"

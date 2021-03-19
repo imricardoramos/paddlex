@@ -1,4 +1,4 @@
-defmodule Paddle.Checkout.UserHistoryTest do
+defmodule Paddle.UserHistoryTest do
   use ExUnit.Case
 
   setup do
@@ -15,7 +15,9 @@ defmodule Paddle.Checkout.UserHistoryTest do
         }
       ))
     end)
-    assert {:ok, "We've sent details of your past transactions, licenses and downloads to you via email."}
-    == Paddle.Checkout.UserHistory.get("user@example.com", vendor_id: 1234)
+
+    assert {:ok,
+            "We've sent details of your past transactions, licenses and downloads to you via email."} ==
+             Paddle.UserHistory.get("user@example.com", vendor_id: 1234)
   end
 end

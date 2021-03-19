@@ -1,4 +1,4 @@
-defmodule Paddle.Alert.WebhookTest do
+defmodule Paddle.WebhookTest do
   use ExUnit.Case
 
   setup do
@@ -39,30 +39,32 @@ defmodule Paddle.Alert.WebhookTest do
         }
       ))
     end)
-    assert {:ok, %{
-      current_page: 1,
-      total_pages: 46,
-      alerts_per_page: 10,
-      total_alerts: 460,
-      query_head: ~U"2015-07-17 14:04:06Z",
-      data: [
-        %Paddle.Alert.Webhook{
-          id: 22257,
-          alert_name: "payment_refunded",
-          status: "success",
-          created_at: ~U"2015-07-17 14:04:05Z",
-          updated_at: ~U"2015-08-14 13:28:19Z",
-          attempts: 1,
-          fields: %{
-            "order_id" => 384920,
-            "amount" => "100",
-            "currency" => "USD",
-            "email" => "xxxxx@xxxxx.com",
-            "marketing_consent" => 1
-          }
-        }
-      ]
-    }}
-    == Paddle.Alert.Webhook.get_history()
+
+    assert {:ok,
+            %{
+              current_page: 1,
+              total_pages: 46,
+              alerts_per_page: 10,
+              total_alerts: 460,
+              query_head: ~U"2015-07-17 14:04:06Z",
+              data: [
+                %Paddle.Webhook{
+                  id: 22257,
+                  alert_name: "payment_refunded",
+                  status: "success",
+                  created_at: ~U"2015-07-17 14:04:05Z",
+                  updated_at: ~U"2015-08-14 13:28:19Z",
+                  attempts: 1,
+                  fields: %{
+                    "order_id" => 384_920,
+                    "amount" => "100",
+                    "currency" => "USD",
+                    "email" => "xxxxx@xxxxx.com",
+                    "marketing_consent" => 1
+                  }
+                }
+              ]
+            }} ==
+             Paddle.Webhook.get_history()
   end
 end
