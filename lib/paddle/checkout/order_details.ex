@@ -50,7 +50,7 @@ defmodule Paddle.OrderDetails do
         "state" => "processed"
       }
   """
-  @spec get(String.t(), String.t()) :: {:ok, map} | {:error, Paddle.Error.t()}
+  @spec get(String.t(), String.t() | nil) :: {:ok, map} | {:error, Paddle.Error.t()}
   def get(checkout_id, callback_name \\ nil) do
     params =
       %{checkout_id: checkout_id, callback_name: callback_name}

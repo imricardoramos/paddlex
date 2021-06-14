@@ -56,7 +56,7 @@ defmodule Paddle.Plan do
   @doc """
   List all of the available subscription plans in your account
 
-  Optionally also accepts the parameter plan with the value of a Plan/Product ID, to return just the information related to that specific plan.
+  Optionally also accepts the parameter `plan_id` with the value of a Plan/Product ID, to return just the information related to that specific plan.
 
   ## Examples
 
@@ -73,11 +73,25 @@ defmodule Paddle.Plan do
         }
       ]}
   """
-  @spec list() :: {:ok, t} | {:error, Paddle.Error.t()}
-  def list() do
-    case Paddle.Request.post("/2.0/subscription/plans") do
+  @spec list(keyword()) :: {:ok, [t]} | {:error, Paddle.Error.t()}
+  def list(opts \\ []) do
+    params = Enum.into(opts, %{})
+             |> Map.take([:plan_id])
+             |> rename_key(:plan_id, :plan)
+
+    case Paddle.Request.post("/2.0/subscription/plans", params) do
       {:ok, list} -> {:ok, Enum.map(list, &Paddle.Helpers.map_to_struct(&1, __MODULE__))}
       {:error, reason} -> {:error, reason}
+    end
+  end
+
+  defp rename_key(map, old_key, new_key) do
+    if Map.get(map, old_key) do
+      map
+      |> Map.delete(old_key)
+      |> Map.put(new_key, map[old_key])
+    else
+      map
     end
   end
 end

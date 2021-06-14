@@ -35,6 +35,8 @@ defmodule Paddle.Transaction do
   Retrieve transactions for related entities within Paddle
   Transaction data can be retrieved using a User ID, Subscription ID, Order ID, Checkout ID (hash) or Product ID.
 
+  Can also pass `page` as an additional parameter to paginate the results. Each response page return 15 results each.
+
       params = %{
         product_id: 1234,
         allowed_uses: 10,
@@ -88,9 +90,12 @@ defmodule Paddle.Transaction do
         }
       ]}
   """
-  @spec list(String.t(), String.t()) :: {:ok, t} | {:error, Paddle.Error.t()}
-  def list(entity, id) do
-    case Paddle.Request.post("/2.0/#{entity}/#{id}/transactions") do
+  @spec list(String.t(), String.t(), keyword()) :: {:ok, [t]} | {:error, Paddle.Error.t()}
+  def list(entity, id, opts \\ []) do
+    params = Enum.into(opts, %{})
+             |> Map.take([:page])
+
+    case Paddle.Request.post("/2.0/#{entity}/#{id}/transactions", params) do
       {:ok, list} ->
         {:ok,
          Enum.map(list, fn elm ->

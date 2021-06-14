@@ -18,7 +18,7 @@ defmodule Paddle.Subscription do
           cancel_url: String.t(),
           paused_at: String.t() | nil,
           paused_from: String.t() | nil,
-          payment_information: Paddle.Payments.CardPayment.t() | Paddle.Payments.PaypalPayment.t()
+          payment_information: map
         }
   defstruct [
     :subscription_id,
@@ -41,6 +41,8 @@ defmodule Paddle.Subscription do
   List all users subscribed to any of your subscription plans
 
   Optionally also accepts `plan_id`, `subscription_id`, and `state` to filter the response to just users of a specific plan, a user subscription, or the status of the user’s subscription. 
+
+  If not filtering by the `subscription_id`, it is strongly recommend to utilize `results_per_page` and `page` to limit the amount of results returned within each API call. This ensures that the response time remains quick and consistent as the amount of user subscriptions build up over time.
 
   ## Examples
 
@@ -75,9 +77,13 @@ defmodule Paddle.Subscription do
         }
       ]}
   """
-  @spec list() :: {:ok, t} | {:error, Paddle.Error.t()}
-  def list() do
-    case Paddle.Request.post("/2.0/subscription/users") do
+  @spec list(keyword()) ::
+          {:ok, [t()]} | {:error, Paddle.Error.t()}
+  def list(opts \\ []) do
+    params = Enum.into(opts, %{})
+             |> Map.take([:subscription_id, :plan_id, :state, :page, :results_per_page])
+
+    case Paddle.Request.post("/2.0/subscription/users", params) do
       {:ok, list} ->
         {:ok,
          Enum.map(list, fn elm ->
