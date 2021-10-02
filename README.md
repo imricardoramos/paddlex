@@ -34,3 +34,7 @@ config :paddlex,
   vendor_id: "YOUR PRODUCTION VENDOR ID (as number)"
   vendor_auth_code: 'YOUR PRODUCTION VENDOR AUTH CODE'
 ```
+
+## License
+
+Paddlex is released under the MIT license. See the [LICENSE](LICENSE.txt).

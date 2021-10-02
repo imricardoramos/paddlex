@@ -25,3 +25,6 @@ paddle-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+# Ignore asdf stuff
+.tool-versions
