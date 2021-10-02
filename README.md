@@ -2,6 +2,11 @@
 
 An Elixir wrapper for the paddle.com API, inspired by [paddle_pay](https://github.com/devmindo/paddle_pay) and [stripity_stripe](https://github.com/code-corps/stripity_stripe)
 
+[![Hex.pm](https://img.shields.io/hexpm/v/paddlex)](https://hex.pm/packages/paddlex)
+[![Hex.pm](https://img.shields.io/badge/hex-docs-blue)](https://hexdocs.pm/paddlex) 
+![Hex.pm](https://img.shields.io/hexpm/dt/paddlex)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/imricardoramos/paddlex/ci?label=ci&logo=github)](https://github.com/imricardoramos/paddlex/actions)
+
 ## Table of Contents
 
 - [Installation](#installation)
