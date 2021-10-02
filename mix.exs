@@ -8,41 +8,20 @@ defmodule Paddle.MixProject do
       elixir: "~> 1.11",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      description: description(),
+      package: package(),
 
       # Docs
       source_url: "https://github.com/imricardoramos/paddlex",
       homepage_url: "/",
       docs: [
         main: "readme",
-        groups_for_modules: [
-          Alert: [
-            Paddle.Webhook
-          ],
-          Checkout: [
-            Paddle.OrderDetails,
-            Paddle.Price,
-            Paddle.UserHistory
-          ],
-          Product: [
-            Paddle.Coupon,
-            Paddle.License,
-            Paddle.PayLink,
-            Paddle.Product,
-            Paddle.ProductPayment,
-            Paddle.Transaction
-          ],
-          Subscription: [
-            Paddle.Subscriber,
-            Paddle.Plan,
-            Paddle.SubscriptionPayment,
-            Paddle.OneOffCharge,
-            Paddle.Modifier
-          ]
-        ],
+        groups_for_modules: groups_for_modules(),
         extras: ["README.md"]
       ]
     ]
   end
+  
 
   # Run "mix help compile.app" to learn about applications.
   def application do
@@ -60,6 +39,50 @@ defmodule Paddle.MixProject do
       {:bypass, "~> 2.1", only: [:test]},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false}
+    ]
+  end
+
+  defp description do
+    """
+    A Paddle client for Elixir.
+    """
+  end
+
+   defp package do
+    [
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/imricardoramos/paddlex"
+      },
+      maintainers: ["Ricardo Ramos"]
+    ]
+  end
+
+  defp groups_for_modules do
+    [
+      Alert: [
+        Paddle.Webhook
+      ],
+      Checkout: [
+        Paddle.OrderDetails,
+        Paddle.Price,
+        Paddle.UserHistory
+      ],
+      Product: [
+        Paddle.Coupon,
+        Paddle.License,
+        Paddle.PayLink,
+        Paddle.Product,
+        Paddle.ProductPayment,
+        Paddle.Transaction
+      ],
+      Subscription: [
+        Paddle.Subscriber,
+        Paddle.Plan,
+        Paddle.SubscriptionPayment,
+        Paddle.OneOffCharge,
+        Paddle.Modifier
+      ]
     ]
   end
 end
