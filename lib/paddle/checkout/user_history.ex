@@ -1,4 +1,7 @@
 defmodule Paddle.UserHistory do
+  @moduledoc """
+  UserHistory
+  """
   @doc """
   Send the customer an order history and license recovery email
 

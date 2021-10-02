@@ -80,8 +80,9 @@ defmodule Paddle.Subscription do
   @spec list(keyword()) ::
           {:ok, [t()]} | {:error, Paddle.Error.t()}
   def list(opts \\ []) do
-    params = Enum.into(opts, %{})
-             |> Map.take([:subscription_id, :plan_id, :state, :page, :results_per_page])
+    params =
+      Enum.into(opts, %{})
+      |> Map.take([:subscription_id, :plan_id, :state, :page, :results_per_page])
 
     case Paddle.Request.post("/2.0/subscription/users", params) do
       {:ok, list} ->

@@ -2,7 +2,7 @@ defmodule Paddle.WebhookTest do
   use ExUnit.Case
 
   setup do
-    bypass = Bypass.open(port: 12345)
+    bypass = Bypass.open(port: 12_345)
     {:ok, bypass: bypass}
   end
 
@@ -49,7 +49,7 @@ defmodule Paddle.WebhookTest do
               query_head: ~U"2015-07-17 14:04:06Z",
               data: [
                 %Paddle.Webhook{
-                  id: 22257,
+                  id: 22_257,
                   alert_name: "payment_refunded",
                   status: "success",
                   created_at: ~U"2015-07-17 14:04:05Z",

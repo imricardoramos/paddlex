@@ -1,4 +1,8 @@
 defmodule Paddle.Request do
+  @moduledoc """
+  Request
+  """
+
   @doc """
   Creates a new request
   """

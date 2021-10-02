@@ -1,4 +1,7 @@
 defmodule Paddle.OneOffCharge do
+  @moduledoc """
+  OneOffCharge
+  """
   @type t :: %__MODULE__{
           invoice_id: integer,
           subscription_id: integer,

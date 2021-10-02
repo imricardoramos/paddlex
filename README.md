@@ -58,4 +58,4 @@ To ensure a commit passes CI you should run `mix check`
 
 ## License
 
-Paddlex is released under the MIT license. See the [LICENSE](LICENSE.txt).
+Paddlex is released under the MIT license. See the [LICENSE](https://github.com/imricardoramos/paddlex/blob/master/LICENSE.txt).

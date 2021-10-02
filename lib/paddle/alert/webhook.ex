@@ -1,4 +1,7 @@
 defmodule Paddle.Webhook do
+  @moduledoc """
+  Webhook
+  """
   @type t :: %__MODULE__{
           id: integer,
           alert_name: String.t(),

@@ -1,4 +1,7 @@
 defmodule Paddle.ProductPayment do
+  @moduledoc """
+  ProductPayment
+  """
   @doc """
   Request a refund for a one-time or subscription payment, either in full or partial
 

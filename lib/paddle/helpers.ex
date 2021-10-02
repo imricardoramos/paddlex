@@ -1,4 +1,7 @@
 defmodule Paddle.Helpers do
+  @moduledoc """
+  Helpers
+  """
   def map_to_struct(map, module) do
     processed_map =
       Map.keys(module.__struct__)

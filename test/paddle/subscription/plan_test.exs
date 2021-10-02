@@ -2,7 +2,7 @@ defmodule Paddle.PlanTest do
   use ExUnit.Case
 
   setup do
-    bypass = Bypass.open(port: 12345)
+    bypass = Bypass.open(port: 12_345)
     {:ok, bypass: bypass}
   end
 

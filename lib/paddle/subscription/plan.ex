@@ -1,4 +1,7 @@
 defmodule Paddle.Plan do
+  @moduledoc """
+  Plan
+  """
   @type t :: %{
           id: integer,
           name: atom,
@@ -75,9 +78,10 @@ defmodule Paddle.Plan do
   """
   @spec list(keyword()) :: {:ok, [t]} | {:error, Paddle.Error.t()}
   def list(opts \\ []) do
-    params = Enum.into(opts, %{})
-             |> Map.take([:plan_id])
-             |> rename_key(:plan_id, :plan)
+    params =
+      Enum.into(opts, %{})
+      |> Map.take([:plan_id])
+      |> rename_key(:plan_id, :plan)
 
     case Paddle.Request.post("/2.0/subscription/plans", params) do
       {:ok, list} -> {:ok, Enum.map(list, &Paddle.Helpers.map_to_struct(&1, __MODULE__))}

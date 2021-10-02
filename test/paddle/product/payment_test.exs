@@ -2,7 +2,7 @@ defmodule Paddle.ProductPaymentTest do
   use ExUnit.Case
 
   setup do
-    bypass = Bypass.open(port: 12345)
+    bypass = Bypass.open(port: 12_345)
     {:ok, bypass: bypass}
   end
 
@@ -18,7 +18,7 @@ defmodule Paddle.ProductPaymentTest do
       ))
     end)
 
-    assert {:ok, 12345} ==
+    assert {:ok, 12_345} ==
              Paddle.ProductPayment.refund(10)
   end
 end

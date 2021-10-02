@@ -1,4 +1,7 @@
 defmodule Paddle.Product do
+  @moduledoc """
+  Product
+  """
   @type t :: %__MODULE__{
           id: integer,
           name: String.t(),
@@ -42,7 +45,7 @@ defmodule Paddle.Product do
       ]}
   """
   @spec list(keyword()) :: {:ok, [t()]} | {:error, Paddle.Error.t()}
-  def list(opts \\ []) do
+  def list(_opts \\ []) do
     case Paddle.Request.post("/2.0/product/get_products") do
       {:ok, response} ->
         {:ok,

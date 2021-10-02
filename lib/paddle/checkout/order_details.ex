@@ -1,4 +1,7 @@
 defmodule Paddle.OrderDetails do
+  @moduledoc """
+  OrderDetails
+  """
   @doc """
   Get information about an order after a transaction completes
 

@@ -2,7 +2,7 @@ defmodule Paddle.TransactionTest do
   use ExUnit.Case
 
   setup do
-    bypass = Bypass.open(port: 12345)
+    bypass = Bypass.open(port: 12_345)
     {:ok, bypass: bypass}
   end
 
@@ -61,12 +61,6 @@ defmodule Paddle.TransactionTest do
       ))
     end)
 
-    params = %{
-      product_id: 1234,
-      allowed_uses: 10,
-      expires_at: ~D[2018-10-10]
-    }
-
     assert {:ok,
             [
               %Paddle.Transaction{
@@ -77,7 +71,7 @@ defmodule Paddle.TransactionTest do
                 status: "completed",
                 created_at: ~U"2017-01-22 00:38:43Z",
                 passthrough: nil,
-                product_id: 12345,
+                product_id: 12_345,
                 is_subscription: true,
                 is_one_off: false,
                 subscription: %{
@@ -85,7 +79,7 @@ defmodule Paddle.TransactionTest do
                   "status" => "active"
                 },
                 user: %{
-                  "user_id" => 29777,
+                  "user_id" => 29_777,
                   "email" => "example@paddle.com",
                   "marketing_consent" => true
                 },
@@ -100,7 +94,7 @@ defmodule Paddle.TransactionTest do
                 status: "refunded",
                 created_at: ~U"2016-12-07 12:25:09Z",
                 passthrough: nil,
-                product_id: 12345,
+                product_id: 12_345,
                 is_subscription: true,
                 is_one_off: true,
                 subscription: %{
@@ -108,13 +102,13 @@ defmodule Paddle.TransactionTest do
                   "status" => "active"
                 },
                 user: %{
-                  "user_id" => 29777,
+                  "user_id" => 29_777,
                   "email" => "example@paddle.com",
                   "marketing_consent" => true
                 },
                 receipt_url:
                   "https://my.paddle.com/receipt/1042907-384785/4795118-chre895f5cfaf61-4d7dafa9df"
               }
-            ]} == Paddle.Transaction.list("user", 29777)
+            ]} == Paddle.Transaction.list("user", 29_777)
   end
 end

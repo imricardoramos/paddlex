@@ -1,4 +1,7 @@
 defmodule Paddle.PayLink do
+  @moduledoc """
+  PayLink
+  """
   @doc """
   Generate a link with custom attributes set for a one-time or subscription checkout
   """

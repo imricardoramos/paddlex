@@ -1,4 +1,7 @@
 defmodule Paddle.Price do
+  @moduledoc """
+  Price
+  """
   @doc """
   Retrieve prices for one or multiple products or plans
 

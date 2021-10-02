@@ -1,4 +1,7 @@
 defmodule Paddle.Config do
+  @moduledoc """
+  Config
+  """
   def resolve() do
     %{
       vendor_id: Application.get_env(:paddlex, :vendor_id),

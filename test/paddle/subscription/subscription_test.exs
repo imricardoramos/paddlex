@@ -2,7 +2,7 @@ defmodule Paddle.SubscriptionTest do
   use ExUnit.Case
 
   setup do
-    bypass = Bypass.open(port: 12345)
+    bypass = Bypass.open(port: 12_345)
     {:ok, bypass: bypass}
   end
 
@@ -108,7 +108,7 @@ defmodule Paddle.SubscriptionTest do
 
     assert {:ok,
             %{
-              subscription_id: 12345,
+              subscription_id: 12_345,
               user_id: 425_123,
               plan_id: 525_123,
               next_payment: %{
@@ -116,7 +116,7 @@ defmodule Paddle.SubscriptionTest do
                 "currency" => "GBP",
                 "date" => ~D"2018-02-15"
               }
-            }} == Paddle.Subscription.update(12345, params)
+            }} == Paddle.Subscription.update(12_345, params)
   end
 
   test "cancel_user", %{bypass: bypass} do
@@ -128,6 +128,6 @@ defmodule Paddle.SubscriptionTest do
       ))
     end)
 
-    assert {:ok, nil} == Paddle.Subscription.cancel(12345)
+    assert {:ok, nil} == Paddle.Subscription.cancel(12_345)
   end
 end

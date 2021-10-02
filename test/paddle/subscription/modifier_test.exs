@@ -2,7 +2,7 @@ defmodule Paddle.ModifierTest do
   use ExUnit.Case
 
   setup do
-    bypass = Bypass.open(port: 12345)
+    bypass = Bypass.open(port: 12_345)
     {:ok, bypass: bypass}
   end
 
@@ -20,7 +20,7 @@ defmodule Paddle.ModifierTest do
     end)
 
     params = %{
-      subscription_id: 12345,
+      subscription_id: 12_345,
       modifier_recurring: true,
       modifier_amount: 20,
       modifier_description: "TestModifier"
@@ -28,7 +28,7 @@ defmodule Paddle.ModifierTest do
 
     assert {:ok,
             %{
-              subscription_id: 12345,
+              subscription_id: 12_345,
               modifier_id: 10
             }} == Paddle.Modifier.create(params)
   end
@@ -56,7 +56,7 @@ defmodule Paddle.ModifierTest do
             [
               %Paddle.Modifier{
                 modifier_id: 10,
-                subscription_id: 12345,
+                subscription_id: 12_345,
                 amount: "1.000",
                 currency: "USD",
                 is_recurring: false,

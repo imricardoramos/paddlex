@@ -1,4 +1,7 @@
 defmodule Paddle.Modifier do
+  @moduledoc """
+  Modifier
+  """
   @type t :: %{
           modifier_id: integer,
           subscription_id: integer,
@@ -9,7 +12,6 @@ defmodule Paddle.Modifier do
         }
   defstruct [:modifier_id, :subscription_id, :amount, :currency, :is_recurring, :description]
 
-  # TODO: add parameters for filtering list
   @doc """
   List all subscription modifiers
 

@@ -1,4 +1,7 @@
 defmodule Paddle.SubscriptionPayment do
+  @moduledoc """
+  SubscriptionPayment
+  """
   @type t :: %__MODULE__{
           id: integer,
           subscription_id: integer,
@@ -46,7 +49,7 @@ defmodule Paddle.SubscriptionPayment do
       }]}
   """
   @spec list(list_args) :: {:ok, [t()]} | {:error, Paddle.Error.t()}
-  def list(params \\ []) do
+  def list(_opts \\ []) do
     case Paddle.Request.post("/2.0/subscription/payments") do
       {:ok, list} -> {:ok, Enum.map(list, &Paddle.Helpers.map_to_struct(&1, __MODULE__))}
       {:error, reason} -> {:error, reason}

@@ -1,4 +1,7 @@
 defmodule Paddle.Transaction do
+  @moduledoc """
+  Transaction
+  """
   @type t :: %__MODULE__{
           order_id: String.t(),
           checkout_id: String.t(),
@@ -92,8 +95,9 @@ defmodule Paddle.Transaction do
   """
   @spec list(String.t(), String.t(), keyword()) :: {:ok, [t]} | {:error, Paddle.Error.t()}
   def list(entity, id, opts \\ []) do
-    params = Enum.into(opts, %{})
-             |> Map.take([:page])
+    params =
+      Enum.into(opts, %{})
+      |> Map.take([:page])
 
     case Paddle.Request.post("/2.0/#{entity}/#{id}/transactions", params) do
       {:ok, list} ->

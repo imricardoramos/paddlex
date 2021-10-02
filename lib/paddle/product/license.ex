@@ -1,4 +1,7 @@
 defmodule Paddle.License do
+  @moduledoc """
+  License
+  """
   @type t :: %__MODULE__{
           license_code: String.t(),
           expires_at: Date.t()

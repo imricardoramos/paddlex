@@ -1,4 +1,7 @@
 defmodule Paddle.Coupon do
+  @moduledoc """
+  Coupon
+  """
   @type t :: %__MODULE__{
           coupon: String.t(),
           description: String.t(),
@@ -62,7 +65,7 @@ defmodule Paddle.Coupon do
                optional(:recurring) => boolean,
                optional(:group) => String.t()
              }
-  def create(params, opts \\ []) do
+  def create(params, _opts \\ []) do
     params = Map.replace(params, :product_ids, Enum.join(params[:product_ids] || [], ","))
 
     case Paddle.Request.post("/2.1/product/create_coupon", params) do
@@ -92,7 +95,7 @@ defmodule Paddle.Coupon do
       ]}
   """
   @spec list(integer, keyword()) :: {:ok, [t()]} | {:error, Paddle.Error.t()}
-  def list(product_id, opts \\ []) do
+  def list(product_id, _opts \\ []) do
     params = %{product_id: product_id}
 
     case Paddle.Request.post("/2.0/product/list_coupons", params) do
@@ -119,7 +122,7 @@ defmodule Paddle.Coupon do
         when params: %{
                optional(:product_id) => integer()
              }
-  def delete(coupon_code, params \\ %{}, opts \\ []) do
+  def delete(coupon_code, params \\ %{}, _opts \\ []) do
     params = Map.merge(params, %{coupon_code: coupon_code})
     Paddle.Request.post("/2.0/product/delete_coupon", params)
   end
@@ -154,7 +157,7 @@ defmodule Paddle.Coupon do
                optional(:discount_amount) => number,
                optional(:recurring) => boolean
              }
-  def update(params, opts \\ []) do
+  def update(params, _opts \\ []) do
     case Paddle.Request.post("/2.1/product/update_coupon", params) do
       {:ok, response} -> {:ok, response["updated"]}
       {:error, reason} -> reason

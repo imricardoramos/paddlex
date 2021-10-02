@@ -21,7 +21,6 @@ defmodule Paddle.MixProject do
       ]
     ]
   end
-  
 
   # Run "mix help compile.app" to learn about applications.
   def application do
@@ -35,9 +34,11 @@ defmodule Paddle.MixProject do
     [
       {:peppermint, "~> 0.3.0"},
       {:castore, "~> 0.1.0"},
+      {:credo, "~> 1.5.6", only: [:dev], runtime: false},
       {:jason, "~> 1.2"},
       {:bypass, "~> 2.1", only: [:test]},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:ex_check, "~> 0.14.0", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false}
     ]
   end
@@ -48,7 +49,7 @@ defmodule Paddle.MixProject do
     """
   end
 
-   defp package do
+  defp package do
     [
       licenses: ["MIT"],
       links: %{
