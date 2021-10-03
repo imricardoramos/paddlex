@@ -2,6 +2,9 @@ defmodule Paddle.Transaction do
   @moduledoc """
   Transaction
   """
+
+  import Paddle.Helpers
+
   @type t :: %__MODULE__{
           order_id: String.t(),
           checkout_id: String.t(),
@@ -104,22 +107,11 @@ defmodule Paddle.Transaction do
         {:ok,
          Enum.map(list, fn elm ->
            Paddle.Helpers.map_to_struct(elm, __MODULE__)
-           |> maybe_convert_date(:created_at)
+           |> maybe_convert_datetime(:created_at)
          end)}
 
       {:error, reason} ->
         {:error, reason}
-    end
-  end
-
-  defp maybe_convert_date(map, key) do
-    datetime_string = Map.get(map, key)
-
-    if datetime_string do
-      {:ok, datetime, 0} = DateTime.from_iso8601(datetime_string <> "Z")
-      Map.replace(map, key, datetime)
-    else
-      map
     end
   end
 end

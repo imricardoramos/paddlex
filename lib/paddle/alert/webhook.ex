@@ -2,6 +2,8 @@ defmodule Paddle.Webhook do
   @moduledoc """
   Webhook
   """
+  import Paddle.Helpers
+
   @type t :: %__MODULE__{
           id: integer,
           alert_name: String.t(),
@@ -74,7 +76,7 @@ defmodule Paddle.Webhook do
            query_head: response["query_head"],
            data: convert_data(response["data"])
          }
-         |> maybe_convert_date(:query_head)}
+         |> maybe_convert_datetime(:query_head)}
 
       {:error, reason} ->
         {:error, reason}
@@ -84,19 +86,8 @@ defmodule Paddle.Webhook do
   defp convert_data(data) do
     Enum.map(data, fn elm ->
       Paddle.Helpers.map_to_struct(elm, __MODULE__)
-      |> maybe_convert_date(:created_at)
-      |> maybe_convert_date(:updated_at)
+      |> maybe_convert_datetime(:created_at)
+      |> maybe_convert_datetime(:updated_at)
     end)
-  end
-
-  defp maybe_convert_date(map, key) do
-    datetime_string = Map.get(map, key)
-
-    if datetime_string do
-      {:ok, datetime, 0} = DateTime.from_iso8601(datetime_string <> "Z")
-      Map.replace(map, key, datetime)
-    else
-      map
-    end
   end
 end

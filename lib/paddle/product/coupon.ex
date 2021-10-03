@@ -2,6 +2,9 @@ defmodule Paddle.Coupon do
   @moduledoc """
   Coupon
   """
+
+  import Paddle.Helpers
+
   @type t :: %__MODULE__{
           coupon: String.t(),
           description: String.t(),
@@ -103,11 +106,11 @@ defmodule Paddle.Coupon do
         {:ok,
          Enum.map(list, fn elm ->
            Paddle.Helpers.map_to_struct(elm, __MODULE__)
-           |> maybe_convert_date(:expires)
+           |> maybe_convert_datetime(:expires)
          end)}
 
       {:error, reason} ->
-        reason
+        {:error, reason}
     end
   end
 
@@ -160,18 +163,7 @@ defmodule Paddle.Coupon do
   def update(params, _opts \\ []) do
     case Paddle.Request.post("/2.1/product/update_coupon", params) do
       {:ok, response} -> {:ok, response["updated"]}
-      {:error, reason} -> reason
-    end
-  end
-
-  defp maybe_convert_date(map, key) do
-    datetime_string = Map.get(map, key)
-
-    if datetime_string do
-      {:ok, datetime, 0} = DateTime.from_iso8601(datetime_string <> "Z")
-      Map.replace(map, key, datetime)
-    else
-      map
+      {:error, reason} -> {:error, reason}
     end
   end
 end

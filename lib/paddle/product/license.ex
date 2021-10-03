@@ -2,6 +2,8 @@ defmodule Paddle.License do
   @moduledoc """
   License
   """
+  import Paddle.Helpers
+
   @type t :: %__MODULE__{
           license_code: String.t(),
           expires_at: Date.t()
@@ -38,18 +40,7 @@ defmodule Paddle.License do
          |> maybe_convert_date(:expires_at)}
 
       {:error, reason} ->
-        reason
-    end
-  end
-
-  defp maybe_convert_date(map, key) do
-    date_string = Map.get(map, key)
-
-    if date_string do
-      date = Date.from_iso8601!(date_string)
-      Map.replace(map, key, date)
-    else
-      map
+        {:error, reason}
     end
   end
 end

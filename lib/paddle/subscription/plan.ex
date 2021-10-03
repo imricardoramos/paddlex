@@ -63,7 +63,7 @@ defmodule Paddle.Plan do
 
   ## Examples
 
-      Paddle.Plan.list() 
+      iex> Paddle.Plan.list() 
       {:ok, [
         %Paddle.Plan{
           billing_period: 1,
@@ -90,10 +90,11 @@ defmodule Paddle.Plan do
   end
 
   defp rename_key(map, old_key, new_key) do
-    if Map.get(map, old_key) do
-      map
-      |> Map.delete(old_key)
-      |> Map.put(new_key, map[old_key])
+    {old_value, new_map} = Map.pop(map, old_key)
+
+    if old_value do
+      new_map
+      |> Map.put(new_key, old_value)
     else
       map
     end

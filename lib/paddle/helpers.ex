@@ -13,4 +13,26 @@ defmodule Paddle.Helpers do
 
     struct(module, processed_map)
   end
+
+  def maybe_convert_datetime(map, key) do
+    datetime_string = Map.get(map, key)
+
+    if datetime_string do
+      {:ok, datetime, 0} = DateTime.from_iso8601(datetime_string <> "Z")
+      Map.replace(map, key, datetime)
+    else
+      map
+    end
+  end
+
+  def maybe_convert_date(map, key) do
+    date_string = Map.get(map, key)
+
+    if date_string do
+      date = Date.from_iso8601!(date_string)
+      Map.replace(map, key, date)
+    else
+      map
+    end
+  end
 end
