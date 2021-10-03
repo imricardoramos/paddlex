@@ -1,7 +1,7 @@
 defmodule Paddle.Subscription do
   @moduledoc """
   This module corresponds to the `subscription/users` endpoint in the Paddle API,
-  I've changed it to Subscription as I found it to be more accurate.
+  I've changed the name to Subscription as I found it to be more accurate.
   """
 
   @type t :: %{
@@ -46,9 +46,9 @@ defmodule Paddle.Subscription do
 
   ## Examples
 
-      Paddle.Subscriber.list() 
+      Paddle.Subscription.list() 
       {:ok, [
-        %Paddle.Subscriber{
+        %Paddle.Subscription{
           subscription_id: 502198,
           plan_id: 496199,
           user_id: 285846,
@@ -121,7 +121,7 @@ defmodule Paddle.Subscription do
         passthrough: true,
         pause: true
       }
-      Paddle.Subscriber.update(12345, params) 
+      Paddle.Subscription.update(12345, params) 
       {:ok, %{
         subscription_id: 12345,
         user_id: 425123,
@@ -172,7 +172,7 @@ defmodule Paddle.Subscription do
 
   ## Examples
 
-      Paddle.Subscriber.cancel(12345) 
+      Paddle.Subscription.cancel(12345) 
       {:ok, nil}
   """
   @spec(cancel(integer) :: {:ok, nil}, {:error, Paddle.Error.t()})

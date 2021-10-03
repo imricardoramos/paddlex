@@ -78,7 +78,7 @@ defmodule Paddle.MixProject do
         Paddle.Transaction
       ],
       Subscription: [
-        Paddle.Subscriber,
+        Paddle.Subscription,
         Paddle.Plan,
         Paddle.SubscriptionPayment,
         Paddle.OneOffCharge,
