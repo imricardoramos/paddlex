@@ -34,6 +34,13 @@ defmodule Paddle.RequestTest do
              Request.get("/some_path")
   end
 
+  test "get returns error message on transport error", %{bypass: bypass} do
+    Bypass.down(bypass)
+
+    assert {:error, %Paddle.Error{code: :econnrefused, message: "connection refused"}} =
+             Request.get("/some_path")
+  end
+
   test "post returns ok", %{bypass: bypass} do
     Bypass.expect(bypass, fn conn ->
       Plug.Conn.resp(conn, 200, ~s({

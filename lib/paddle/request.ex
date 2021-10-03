@@ -22,6 +22,9 @@ defmodule Paddle.Request do
       {:ok, response} ->
         parse_response_body(response.body)
 
+      {:error, %Mint.TransportError{} = error} ->
+        {:error, parse_transport_error(error)}
+
       {:error, reason} ->
         {:error, reason}
     end
@@ -33,6 +36,9 @@ defmodule Paddle.Request do
     case Peppermint.get(url, params: params) do
       {:ok, response} ->
         parse_response_body(response.body)
+
+      {:error, %Mint.TransportError{} = error} ->
+        {:error, parse_transport_error(error)}
 
       {:error, reason} ->
         {:error, reason}
@@ -55,6 +61,13 @@ defmodule Paddle.Request do
     %Paddle.Error{
       code: error["code"],
       message: error["message"]
+    }
+  end
+
+  defp parse_transport_error(%Mint.TransportError{} = error) do
+    %Paddle.Error{
+      code: error.reason,
+      message: Mint.TransportError.message(error)
     }
   end
 
