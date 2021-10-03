@@ -16,13 +16,12 @@ An Elixir wrapper for the paddle.com API, inspired by [paddle_pay](https://githu
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `paddle` to your list of dependencies in `mix.exs`:
+Add `paddlex` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:paddlex, "~> 0.1.0"}
+    {:paddlex, "~> 0.1.1"}
   ]
 end
 ```
@@ -49,15 +48,13 @@ config :paddlex,
   vendor_auth_code: 'YOUR PRODUCTION VENDOR AUTH CODE'
 ```
 
+### Examples
+
+For examples of usage, please see the [HexDocs](https://hexdocs.pm/paddlex) 
+
 ## Contributing
 
 Feedback, feature requests, and fixes are welcomed and encouraged.
-Here are a few things this package is missing:
-
-- Write tests and reach 100% code coverage.
-- Ensure dialyzer signatures are correct
-- Pick a suitable HTTP client (see [here](https://elixirforum.com/t/http-client-libraries-and-wrappers/15938) and [here](https://elixirforum.com/t/mint-vs-finch-vs-gun-vs-tesla-vs-httpoison-etc/38588))
-- Improve docs
 
 To ensure a commit passes CI you should run `mix check`
 
