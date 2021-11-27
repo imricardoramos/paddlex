@@ -130,4 +130,60 @@ defmodule Paddle.SubscriptionTest do
 
     assert {:ok, nil} == Paddle.Subscription.cancel(12_345)
   end
+
+  test "do not attempt to convert dates for nil values", %{bypass: bypass} do
+    Bypass.expect(bypass, fn conn ->
+      Plug.Conn.resp(conn, 200, ~s(
+        {
+          "success": true,
+          "response": [
+            {
+              "subscription_id": 502198,
+              "plan_id": 496199,
+              "user_id": 285846,
+              "user_email": "name@example.com",
+              "marketing_consent": true,
+              "update_url": "https://checkout.paddle.com/subscription/update?user=12345&subscription=87654321&hash=eyJpdiI6Ik1RTE1nbHpXQmtJUG5...",
+              "cancel_url": "https://checkout.paddle.com/subscription/cancel?user=12345&subscription=87654321&hash=eyJpdiI6IlU0Nk5cL1JZeHQyTXd...",
+              "state": "active",
+              "signup_date": "2015-10-06 09:44:23",
+              "last_payment": null,
+              "payment_information": {
+                "payment_method": "card",
+                "card_type": "visa",
+                "last_four_digits": "1111",
+                "expiry_date": "02/2020"
+              },
+              "next_payment": null
+            }
+          ]
+        }
+      ))
+    end)
+
+    assert {:ok,
+            [
+              %Paddle.Subscription{
+                subscription_id: 502_198,
+                plan_id: 496_199,
+                user_id: 285_846,
+                user_email: "name@example.com",
+                marketing_consent: true,
+                update_url:
+                  "https://checkout.paddle.com/subscription/update?user=12345&subscription=87654321&hash=eyJpdiI6Ik1RTE1nbHpXQmtJUG5...",
+                cancel_url:
+                  "https://checkout.paddle.com/subscription/cancel?user=12345&subscription=87654321&hash=eyJpdiI6IlU0Nk5cL1JZeHQyTXd...",
+                state: "active",
+                signup_date: ~U"2015-10-06 09:44:23Z",
+                last_payment: nil,
+                payment_information: %{
+                  "payment_method" => "card",
+                  "card_type" => "visa",
+                  "last_four_digits" => "1111",
+                  "expiry_date" => "02/2020"
+                },
+                next_payment: nil
+              }
+            ]} == Paddle.Subscription.list()
+  end
 end

@@ -181,9 +181,15 @@ defmodule Paddle.Subscription do
   end
 
   defp convert_dates(user) do
-    user = put_in(user.last_payment["date"], Date.from_iso8601!(user.last_payment["date"]))
-    user = put_in(user.next_payment["date"], Date.from_iso8601!(user.next_payment["date"]))
+    last_payment =
+      user.last_payment &&
+        Map.update!(user.last_payment, "date", fn date -> Date.from_iso8601!(date) end)
+
+    next_payment =
+      user.next_payment &&
+        Map.update!(user.next_payment, "date", fn date -> Date.from_iso8601!(date) end)
+
     {:ok, signup_datetime, 0} = DateTime.from_iso8601(user.signup_date <> "Z")
-    put_in(user.signup_date, signup_datetime)
+    %{user | last_payment: last_payment, next_payment: next_payment, signup_date: signup_datetime}
   end
 end
