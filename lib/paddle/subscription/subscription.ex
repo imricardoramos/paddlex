@@ -159,7 +159,6 @@ defmodule Paddle.Subscription do
           subscription_id: user["subscription_id"],
           user_id: user["user_id"],
           plan_id: user["plan_id"],
-          quantity: user["quantity"],
           next_payment: user["next_payment"]
         }
 
