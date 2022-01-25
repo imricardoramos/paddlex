@@ -18,7 +18,8 @@ defmodule Paddle.Subscription do
           cancel_url: String.t(),
           paused_at: String.t() | nil,
           paused_from: String.t() | nil,
-          payment_information: map
+          payment_information: map,
+          quantity: integer
         }
   defstruct [
     :subscription_id,
@@ -34,19 +35,20 @@ defmodule Paddle.Subscription do
     :cancel_url,
     :paused_at,
     :paused_from,
-    :payment_information
+    :payment_information,
+    :quantity
   ]
 
   @doc """
   List all users subscribed to any of your subscription plans
 
-  Optionally also accepts `plan_id`, `subscription_id`, and `state` to filter the response to just users of a specific plan, a user subscription, or the status of the user’s subscription. 
+  Optionally also accepts `plan_id`, `subscription_id`, and `state` to filter the response to just users of a specific plan, a user subscription, or the status of the user’s subscription.
 
   If not filtering by the `subscription_id`, it is strongly recommend to utilize `results_per_page` and `page` to limit the amount of results returned within each API call. This ensures that the response time remains quick and consistent as the amount of user subscriptions build up over time.
 
   ## Examples
 
-      Paddle.Subscription.list() 
+      Paddle.Subscription.list()
       {:ok, [
         %Paddle.Subscription{
           subscription_id: 502198,
@@ -69,6 +71,7 @@ defmodule Paddle.Subscription do
             "last_four_digits" => "1111",
             "expiry_date" => "02/2020"
           },
+          quantity: 200,
           next_payment: %{
             "amount" => 10,
             "currency" => "USD",
@@ -116,16 +119,18 @@ defmodule Paddle.Subscription do
       params = %{
         bill_immediately: true,
         plan_id: 525123,
+        quantity: 200,
         prorate: true,
         keep_modifiers: true,
         passthrough: true,
         pause: true
       }
-      Paddle.Subscription.update(12345, params) 
+      Paddle.Subscription.update(12345, params)
       {:ok, %{
         subscription_id: 12345,
         user_id: 425123,
         plan_id: 525123,
+        quantity: 200,
         next_payment: %{
           "amount" => 144.06,
           "currency" => "GBP",
@@ -135,11 +140,11 @@ defmodule Paddle.Subscription do
   """
   @spec update(integer, params) :: {:ok, map} | {:error, Paddle.Error.t()}
         when params: %{
-               :quantity => integer,
                optional(:currency) => String.t(),
                optional(:recurring_price) => number,
                optional(:bill_immediately) => boolean,
                optional(:plan_id) => integer,
+               optional(:quantity) => integer,
                optional(:prorate) => boolean,
                optional(:keep_modifiers) => boolean,
                optional(:passthrough) => String.t(),
@@ -172,7 +177,7 @@ defmodule Paddle.Subscription do
 
   ## Examples
 
-      Paddle.Subscription.cancel(12345) 
+      Paddle.Subscription.cancel(12345)
       {:ok, nil}
   """
   @spec(cancel(integer) :: {:ok, nil}, {:error, Paddle.Error.t()})

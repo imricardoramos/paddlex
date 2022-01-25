@@ -33,6 +33,7 @@ defmodule Paddle.SubscriptionTest do
                 "last_four_digits": "1111",
                 "expiry_date": "02/2020"
               },
+              "quantity": 200,
               "next_payment": {
                 "amount": 10,
                 "currency": "USD",
@@ -69,6 +70,7 @@ defmodule Paddle.SubscriptionTest do
                   "last_four_digits" => "1111",
                   "expiry_date" => "02/2020"
                 },
+                quantity: 200,
                 next_payment: %{
                   "amount" => 10,
                   "currency" => "USD",
@@ -100,6 +102,7 @@ defmodule Paddle.SubscriptionTest do
     params = %{
       bill_immediately: true,
       plan_id: 525_123,
+      quantity: 200,
       prorate: true,
       keep_modifiers: true,
       passthrough: true,
