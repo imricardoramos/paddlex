@@ -119,6 +119,7 @@ defmodule Paddle.Subscription do
       params = %{
         bill_immediately: true,
         plan_id: 525123,
+        quantity: 200,
         prorate: true,
         keep_modifiers: true,
         passthrough: true,
@@ -129,6 +130,7 @@ defmodule Paddle.Subscription do
         subscription_id: 12345,
         user_id: 425123,
         plan_id: 525123,
+        quantity: 200,
         next_payment: %{
           "amount" => 144.06,
           "currency" => "GBP",
@@ -138,11 +140,11 @@ defmodule Paddle.Subscription do
   """
   @spec update(integer, params) :: {:ok, map} | {:error, Paddle.Error.t()}
         when params: %{
-               :quantity => integer,
                optional(:currency) => String.t(),
                optional(:recurring_price) => number,
                optional(:bill_immediately) => boolean,
                optional(:plan_id) => integer,
+               optional(:quantity) => integer,
                optional(:prorate) => boolean,
                optional(:keep_modifiers) => boolean,
                optional(:passthrough) => String.t(),
@@ -157,6 +159,7 @@ defmodule Paddle.Subscription do
           subscription_id: user["subscription_id"],
           user_id: user["user_id"],
           plan_id: user["plan_id"],
+          quantity: user["quantity"],
           next_payment: user["next_payment"]
         }
 

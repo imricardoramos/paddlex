@@ -89,6 +89,7 @@ defmodule Paddle.SubscriptionTest do
             "subscription_id": 12345,
             "user_id": 425123,
             "plan_id": 525123,
+            "quantity": 200,
             "next_payment": {
               "amount": 144.06,
               "currency": "GBP",
@@ -102,6 +103,7 @@ defmodule Paddle.SubscriptionTest do
     params = %{
       bill_immediately: true,
       plan_id: 525_123,
+      quantity: 200,
       prorate: true,
       keep_modifiers: true,
       passthrough: true,
@@ -113,6 +115,7 @@ defmodule Paddle.SubscriptionTest do
               subscription_id: 12_345,
               user_id: 425_123,
               plan_id: 525_123,
+              quantity: 200,
               next_payment: %{
                 "amount" => 144.06,
                 "currency" => "GBP",
