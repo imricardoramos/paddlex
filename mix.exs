@@ -10,6 +10,7 @@ defmodule Paddle.MixProject do
       deps: deps(),
       description: description(),
       package: package(),
+      elixirc_paths: elixirc_paths(Mix.env()),
 
       # Docs
       source_url: "https://github.com/imricardoramos/paddlex",
@@ -42,6 +43,9 @@ defmodule Paddle.MixProject do
       {:ex_doc, "~> 0.24", only: [:dev, :test], runtime: false}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 
   defp description do
     """
