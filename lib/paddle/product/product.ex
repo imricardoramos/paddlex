@@ -1,6 +1,6 @@
 defmodule Paddle.Product do
   @moduledoc """
-  Product
+  List the one-time products in your Paddle account.
   """
   @type t :: %__MODULE__{
           id: integer,
@@ -45,8 +45,8 @@ defmodule Paddle.Product do
       ]}
   """
   @spec list(keyword()) :: {:ok, [t()]} | {:error, Paddle.Error.t()}
-  def list(_opts \\ []) do
-    case Paddle.Request.post("/2.0/product/get_products") do
+  def list(opts \\ []) do
+    case Paddle.Request.post("/2.0/product/get_products", %{}, opts) do
       {:ok, response} ->
         {:ok,
          Enum.map(response["products"], fn elm ->

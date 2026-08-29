@@ -20,7 +20,10 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
-paddle-*.tar
+paddlex-*.tar
+
+# Dialyzer PLTs (cached locally and in CI, not committed).
+/priv/plts/
 
 
 # Temporary files for e.g. tests
@@ -28,3 +31,6 @@ paddle-*.tar
 
 # Ignore asdf stuff
 .tool-versions
+
+# Language server cache
+/.elixir-tools/

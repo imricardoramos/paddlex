@@ -1,6 +1,6 @@
 defmodule Paddle.OrderDetails do
   @moduledoc """
-  OrderDetails
+  Retrieve details of an order after a successful checkout.
   """
   @doc """
   Get information about an order after a transaction completes
@@ -53,13 +53,13 @@ defmodule Paddle.OrderDetails do
         "state" => "processed"
       }
   """
-  @spec get(String.t(), String.t() | nil) :: {:ok, map} | {:error, Paddle.Error.t()}
-  def get(checkout_id, callback_name \\ nil) do
+  @spec get(String.t(), String.t() | nil, keyword()) :: {:ok, map} | {:error, Paddle.Error.t()}
+  def get(checkout_id, callback_name \\ nil, opts \\ []) do
     params =
       %{checkout_id: checkout_id, callback_name: callback_name}
       |> Enum.reject(fn {_, v} -> is_nil(v) end)
       |> Enum.into(%{})
 
-    Paddle.Request.get("/1.0/order", params)
+    Paddle.Request.get("/1.0/order", params, opts)
   end
 end

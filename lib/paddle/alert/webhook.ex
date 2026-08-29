@@ -1,6 +1,6 @@
 defmodule Paddle.Webhook do
   @moduledoc """
-  Webhook
+  Retrieve past events and alerts that Paddle has sent to your registered webhooks.
   """
   import Paddle.Helpers
 
@@ -57,15 +57,15 @@ defmodule Paddle.Webhook do
         ]
       }}
   """
-  @spec get_history(params) :: {:ok, t} | {:error, Paddle.Error.t()}
+  @spec get_history(params, keyword()) :: {:ok, t} | {:error, Paddle.Error.t()}
         when params: %{
                optional(:page) => integer,
                optional(:alerts_per_page) => String.t(),
                optional(:query_head) => String.t(),
                optional(:query_tail) => String.t()
              }
-  def get_history(params \\ %{}) do
-    case Paddle.Request.post("/2.0/alert/webhooks", params) do
+  def get_history(params \\ %{}, opts \\ []) do
+    case Paddle.Request.post("/2.0/alert/webhooks", params, opts) do
       {:ok, response} ->
         {:ok,
          %{

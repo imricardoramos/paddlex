@@ -1,6 +1,6 @@
 defmodule Paddle.OneOffCharge do
   @moduledoc """
-  OneOffCharge
+  Make immediate one-off charges on top of an existing subscription.
   """
   @type t :: %__MODULE__{
           invoice_id: integer,
@@ -39,11 +39,11 @@ defmodule Paddle.OneOffCharge do
         receipt_url: "https://my.paddle.com/receipt/1-1/3-chre8a53a2724c6-42781cb91a"
       }}
   """
-  @spec create(integer, number, String.t()) :: {:ok, t} | {:error, Paddle.Error.t()}
-  def create(subscription_id, amount, charge_name) do
+  @spec create(integer, number, String.t(), keyword()) :: {:ok, t} | {:error, Paddle.Error.t()}
+  def create(subscription_id, amount, charge_name, opts \\ []) do
     params = %{amount: amount, charge_name: charge_name}
 
-    case Paddle.Request.post("/2.0/subscription/#{subscription_id}/charge", params) do
+    case Paddle.Request.post("/2.0/subscription/#{subscription_id}/charge", params, opts) do
       {:ok, one_off_charge} ->
         {:ok,
          Paddle.Helpers.map_to_struct(one_off_charge, __MODULE__)

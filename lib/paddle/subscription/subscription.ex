@@ -87,7 +87,7 @@ defmodule Paddle.Subscription do
       Enum.into(opts, %{})
       |> Map.take([:subscription_id, :plan_id, :state, :page, :results_per_page])
 
-    case Paddle.Request.post("/2.0/subscription/users", params) do
+    case Paddle.Request.post("/2.0/subscription/users", params, opts) do
       {:ok, list} ->
         {:ok,
          Enum.map(list, fn elm ->
@@ -138,7 +138,7 @@ defmodule Paddle.Subscription do
         }
       }}
   """
-  @spec update(integer, params) :: {:ok, map} | {:error, Paddle.Error.t()}
+  @spec update(integer, params, keyword()) :: {:ok, map} | {:error, Paddle.Error.t()}
         when params: %{
                optional(:currency) => String.t(),
                optional(:recurring_price) => number,
@@ -150,10 +150,10 @@ defmodule Paddle.Subscription do
                optional(:passthrough) => String.t(),
                optional(:pause) => boolean
              }
-  def update(subscription_id, params) do
+  def update(subscription_id, params, opts \\ []) do
     params = Map.put(params, :subscription_id, subscription_id)
 
-    case Paddle.Request.post("/2.0/subscription/users/update", params) do
+    case Paddle.Request.post("/2.0/subscription/users/update", params, opts) do
       {:ok, user} ->
         user = %{
           subscription_id: user["subscription_id"],
@@ -180,9 +180,13 @@ defmodule Paddle.Subscription do
       Paddle.Subscription.cancel(12345)
       {:ok, nil}
   """
-  @spec(cancel(integer) :: {:ok, nil}, {:error, Paddle.Error.t()})
-  def cancel(subscription_id) do
-    Paddle.Request.post("/2.0/subscription/users/cancel", %{subscription_id: subscription_id})
+  @spec cancel(integer, keyword()) :: {:ok, nil} | {:error, Paddle.Error.t()}
+  def cancel(subscription_id, opts \\ []) do
+    Paddle.Request.post(
+      "/2.0/subscription/users/cancel",
+      %{subscription_id: subscription_id},
+      opts
+    )
   end
 
   defp convert_dates(user) do

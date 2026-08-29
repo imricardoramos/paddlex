@@ -1,12 +1,7 @@
 defmodule Paddle.PlanTest do
-  use ExUnit.Case
+  use Paddle.Case
 
   alias Paddle.Plan
-
-  setup do
-    bypass = Bypass.open(port: 12_345)
-    {:ok, bypass: bypass}
-  end
 
   test "lists plans", %{bypass: bypass} do
     Bypass.expect(bypass, fn conn ->

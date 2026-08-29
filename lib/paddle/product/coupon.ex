@@ -1,6 +1,6 @@
 defmodule Paddle.Coupon do
   @moduledoc """
-  Coupon
+  Create, list, update, and delete coupons for products or checkouts.
   """
 
   import Paddle.Helpers
@@ -68,10 +68,10 @@ defmodule Paddle.Coupon do
                optional(:recurring) => boolean,
                optional(:group) => String.t()
              }
-  def create(params, _opts \\ []) do
+  def create(params, opts \\ []) do
     params = Map.replace(params, :product_ids, Enum.join(params[:product_ids] || [], ","))
 
-    case Paddle.Request.post("/2.1/product/create_coupon", params) do
+    case Paddle.Request.post("/2.1/product/create_coupon", params, opts) do
       {:ok, list} -> {:ok, %{coupon_codes: list["coupon_codes"]}}
       {:error, reason} -> {:error, reason}
     end
@@ -98,10 +98,10 @@ defmodule Paddle.Coupon do
       ]}
   """
   @spec list(integer, keyword()) :: {:ok, [t()]} | {:error, Paddle.Error.t()}
-  def list(product_id, _opts \\ []) do
+  def list(product_id, opts \\ []) do
     params = %{product_id: product_id}
 
-    case Paddle.Request.post("/2.0/product/list_coupons", params) do
+    case Paddle.Request.post("/2.0/product/list_coupons", params, opts) do
       {:ok, list} ->
         {:ok,
          Enum.map(list, fn elm ->
@@ -125,9 +125,9 @@ defmodule Paddle.Coupon do
         when params: %{
                optional(:product_id) => integer()
              }
-  def delete(coupon_code, params \\ %{}, _opts \\ []) do
+  def delete(coupon_code, params \\ %{}, opts \\ []) do
     params = Map.merge(params, %{coupon_code: coupon_code})
-    Paddle.Request.post("/2.0/product/delete_coupon", params)
+    Paddle.Request.post("/2.0/product/delete_coupon", params, opts)
   end
 
   @doc """
@@ -160,8 +160,8 @@ defmodule Paddle.Coupon do
                optional(:discount_amount) => number,
                optional(:recurring) => boolean
              }
-  def update(params, _opts \\ []) do
-    case Paddle.Request.post("/2.1/product/update_coupon", params) do
+  def update(params, opts \\ []) do
+    case Paddle.Request.post("/2.1/product/update_coupon", params, opts) do
       {:ok, response} -> {:ok, response["updated"]}
       {:error, reason} -> {:error, reason}
     end

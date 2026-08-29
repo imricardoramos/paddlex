@@ -1,10 +1,5 @@
 defmodule Paddle.TransactionTest do
-  use ExUnit.Case
-
-  setup do
-    bypass = Bypass.open(port: 12_345)
-    {:ok, bypass: bypass}
-  end
+  use Paddle.Case
 
   test "list transactions", %{bypass: bypass} do
     Bypass.expect(bypass, fn conn ->

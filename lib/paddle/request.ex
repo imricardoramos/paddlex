@@ -1,49 +1,71 @@
 defmodule Paddle.Request do
   @moduledoc """
-  Request
+  Low-level HTTP layer for the Paddle API.
+
+  Requests are performed with `Req`. Both `post/3` and `get/3` accept an
+  `opts` keyword list of per-call configuration overrides — see
+  `Paddle.Config` for the supported keys.
   """
 
   @doc """
-  Creates a new request
+  Performs a POST request against the vendors API, merging the configured
+  `vendor_id`/`vendor_auth_code` credentials into `params`.
   """
-  def post(path, params \\ %{}) do
-    url = vendors_base_url() <> path
-    config = Paddle.Config.resolve() |> Map.take([:vendor_id, :vendor_auth_code])
-    params = Map.merge(config, params)
+  @spec post(String.t(), map(), keyword()) :: {:ok, term()} | {:error, Paddle.Error.t()}
+  def post(path, params \\ %{}, opts \\ []) do
+    config = Paddle.Config.resolve(opts)
 
-    request =
-      Peppermint.post(
-        url,
-        params: params,
-        headers: [{"Content-Type", "application/x-www-form-urlencoded"}]
+    with :ok <- validate_credentials(config) do
+      credentials = %{vendor_id: config.vendor_id, vendor_auth_code: config.vendor_auth_code}
+
+      Req.post(req(config.vendors_base_url <> path, opts),
+        form: Map.merge(credentials, params)
       )
-
-    case request do
-      {:ok, response} ->
-        parse_response_body(response.body)
-
-      {:error, %Mint.TransportError{} = error} ->
-        {:error, parse_transport_error(error)}
-
-      {:error, reason} ->
-        {:error, reason}
+      |> handle_result()
     end
   end
 
-  def get(path, params \\ %{}) do
-    url = checkout_base_url() <> path
+  @doc """
+  Performs a GET request against the checkout API.
+  """
+  @spec get(String.t(), map(), keyword()) :: {:ok, term()} | {:error, Paddle.Error.t()}
+  def get(path, params \\ %{}, opts \\ []) do
+    config = Paddle.Config.resolve(opts)
 
-    case Peppermint.get(url, params: params) do
-      {:ok, response} ->
-        parse_response_body(response.body)
+    Req.get(req(config.checkout_base_url <> path, opts), params: Map.to_list(params))
+    |> handle_result()
+  end
 
-      {:error, %Mint.TransportError{} = error} ->
-        {:error, parse_transport_error(error)}
+  defp req(url, opts) do
+    Req.new(url: url, retry: false, decode_body: false)
+    |> Req.merge(Keyword.get(opts, :req_options, []))
+  end
 
-      {:error, reason} ->
-        {:error, reason}
+  defp validate_credentials(%{vendor_id: vendor_id, vendor_auth_code: vendor_auth_code}) do
+    if is_nil(vendor_id) or is_nil(vendor_auth_code) do
+      {:error,
+       %Paddle.Error{
+         code: :missing_configuration,
+         message:
+           "missing :vendor_id and/or :vendor_auth_code — configure them under the " <>
+             ":paddlex application or pass them as per-call options"
+       }}
+    else
+      :ok
     end
   end
+
+  defp handle_result({:ok, %Req.Response{body: body}}), do: parse_response_body(body)
+
+  defp handle_result({:error, %Req.TransportError{} = error}) do
+    {:error, %Paddle.Error{code: error.reason, message: Exception.message(error)}}
+  end
+
+  defp handle_result({:error, exception}) when is_exception(exception) do
+    {:error, %Paddle.Error{code: :request_error, message: Exception.message(exception)}}
+  end
+
+  defp handle_result({:error, reason}), do: {:error, reason}
 
   defp parse_response_body(request_body) do
     body = Jason.decode!(request_body)
@@ -62,28 +84,5 @@ defmodule Paddle.Request do
       code: error["code"],
       message: error["message"]
     }
-  end
-
-  defp parse_transport_error(%Mint.TransportError{} = error) do
-    %Paddle.Error{
-      code: error.reason,
-      message: Mint.TransportError.message(error)
-    }
-  end
-
-  defp vendors_base_url do
-    case Paddle.Config.resolve() do
-      %{environment: :production} -> "https://vendors.paddle.com/api"
-      %{environment: :sandbox} -> "https://sandbox-vendors.paddle.com/api"
-      %{environment: :test} -> "http://localhost:12345/api"
-    end
-  end
-
-  defp checkout_base_url do
-    case Paddle.Config.resolve() do
-      %{environment: :production} -> "https://checkout.paddle.com/api"
-      %{environment: :sandbox} -> "https://sandbox-checkout.paddle.com/api"
-      %{environment: :test} -> "http://localhost:12345/api"
-    end
   end
 end

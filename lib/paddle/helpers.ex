@@ -1,6 +1,6 @@
 defmodule Paddle.Helpers do
   @moduledoc """
-  Helpers
+  Internal helpers for converting Paddle API responses into structs, dates, and datetimes.
   """
   def map_to_struct(map, module) do
     processed_map =

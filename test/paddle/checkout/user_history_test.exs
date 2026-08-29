@@ -1,10 +1,5 @@
 defmodule Paddle.UserHistoryTest do
-  use ExUnit.Case
-
-  setup do
-    bypass = Bypass.open(port: 12_345)
-    {:ok, bypass: bypass}
-  end
+  use Paddle.Case
 
   test "get user history", %{bypass: bypass} do
     Bypass.expect(bypass, fn conn ->

@@ -4,21 +4,25 @@ defmodule Paddle.MixProject do
   def project do
     [
       app: :paddlex,
-      version: "0.1.1",
-      elixir: "~> 1.11",
+      version: "0.2.0",
+      elixir: "~> 1.17",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       description: description(),
       package: package(),
       elixirc_paths: elixirc_paths(Mix.env()),
+      dialyzer: [
+        plt_add_apps: [:ex_unit],
+        plt_local_path: "priv/plts"
+      ],
 
       # Docs
       source_url: "https://github.com/imricardoramos/paddlex",
-      homepage_url: "/",
+      homepage_url: "https://github.com/imricardoramos/paddlex",
       docs: [
         main: "readme",
         groups_for_modules: groups_for_modules(),
-        extras: ["README.md"]
+        extras: ["README.md", "CHANGELOG.md"]
       ]
     ]
   end
@@ -33,14 +37,13 @@ defmodule Paddle.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:peppermint, "~> 0.3.0"},
-      {:castore, "~> 0.1.0"},
-      {:credo, "~> 1.5.6", only: [:dev, :test], runtime: false},
-      {:jason, "~> 1.2"},
+      {:req, "~> 0.5"},
+      {:jason, "~> 1.4"},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:bypass, "~> 2.1", only: [:test]},
-      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:ex_check, "~> 0.14.0", only: [:dev, :test], runtime: false},
-      {:ex_doc, "~> 0.24", only: [:dev, :test], runtime: false}
+      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:ex_check, "~> 0.16", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.34", only: [:dev, :test], runtime: false}
     ]
   end
 

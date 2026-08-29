@@ -1,6 +1,6 @@
 defmodule Paddle.Price do
   @moduledoc """
-  Price
+  Retrieve prices for one or more products or subscription plans.
   """
   @doc """
   Retrieve prices for one or multiple products or plans
@@ -44,6 +44,6 @@ defmodule Paddle.Price do
       coupons: opts[:coupons]
     }
 
-    Paddle.Request.get("/2.0/prices", params)
+    Paddle.Request.get("/2.0/prices", params, opts)
   end
 end

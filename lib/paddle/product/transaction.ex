@@ -1,6 +1,6 @@
 defmodule Paddle.Transaction do
   @moduledoc """
-  Transaction
+  List transactions for related entities (user, subscription, order, checkout, or product) within Paddle.
   """
 
   import Paddle.Helpers
@@ -102,7 +102,7 @@ defmodule Paddle.Transaction do
       Enum.into(opts, %{})
       |> Map.take([:page])
 
-    case Paddle.Request.post("/2.0/#{entity}/#{id}/transactions", params) do
+    case Paddle.Request.post("/2.0/#{entity}/#{id}/transactions", params, opts) do
       {:ok, list} ->
         {:ok,
          Enum.map(list, fn elm ->

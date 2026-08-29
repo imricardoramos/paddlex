@@ -1,6 +1,6 @@
 defmodule Paddle.Plan do
   @moduledoc """
-  Plan
+  Create and list the subscription plans in your Paddle account.
   """
   @type t :: %{
           id: integer,
@@ -39,7 +39,7 @@ defmodule Paddle.Plan do
       Paddle.Plan.create(params)
       {:ok, 502198}
   """
-  @spec create(params) :: {:ok, integer} | {:error, Paddle.Error.t()}
+  @spec create(params, keyword()) :: {:ok, integer} | {:error, Paddle.Error.t()}
         when params: %{
                :plan_name => String.t(),
                :plan_length => pos_integer,
@@ -49,8 +49,8 @@ defmodule Paddle.Plan do
                optional(:recurring_price_usd) => String.t(),
                optional(:recurring_price_gbp) => String.t()
              }
-  def create(params) do
-    case Paddle.Request.post("/2.0/subscription/plans_create", params) do
+  def create(params, opts \\ []) do
+    case Paddle.Request.post("/2.0/subscription/plans_create", params, opts) do
       {:ok, result} -> {:ok, result["product_id"]}
       {:error, error} -> {:error, error}
     end
@@ -83,7 +83,7 @@ defmodule Paddle.Plan do
       |> Map.take([:plan_id])
       |> rename_key(:plan_id, :plan)
 
-    case Paddle.Request.post("/2.0/subscription/plans", params) do
+    case Paddle.Request.post("/2.0/subscription/plans", params, opts) do
       {:ok, list} -> {:ok, Enum.map(list, &Paddle.Helpers.map_to_struct(&1, __MODULE__))}
       {:error, reason} -> {:error, reason}
     end

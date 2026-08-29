@@ -1,12 +1,7 @@
 defmodule Paddle.PayLinkTest do
-  use ExUnit.Case
+  use Paddle.Case
 
   import Paddle.Support.TestUtils
-
-  setup do
-    bypass = Bypass.open(port: 12_345)
-    {:ok, bypass: bypass}
-  end
 
   @generated_reponse_url "https://checkout.paddle.com/checkout/custom/verylongstring"
 

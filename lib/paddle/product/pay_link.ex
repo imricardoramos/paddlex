@@ -1,11 +1,11 @@
 defmodule Paddle.PayLink do
   @moduledoc """
-  PayLink
+  Generate custom pay links to charge users for products or subscription plans.
   """
   @doc """
   Generate a link with custom attributes set for a one-time or subscription checkout
   """
-  @spec generate(params) :: {:ok, String.t()} | {:error, Paddle.Error.t()}
+  @spec generate(params, keyword()) :: {:ok, String.t()} | {:error, Paddle.Error.t()}
         when params: %{
                optional(:product_id) => integer,
                optional(:title) => String.t(),
@@ -36,14 +36,14 @@ defmodule Paddle.PayLink do
                optional(:vat_country) => String.t(),
                optional(:vat_postcode) => String.t()
              }
-  def generate(params) do
+  def generate(params, opts \\ []) do
     params =
       params
       |> maybe_set_list_as_array(:prices)
       |> maybe_set_list_as_array(:recurring_prices)
       |> maybe_set_list_as_array(:affiliates)
 
-    case Paddle.Request.post("/2.0/product/generate_pay_link", params) do
+    case Paddle.Request.post("/2.0/product/generate_pay_link", params, opts) do
       {:ok, response} -> {:ok, response["url"]}
       {:error, reason} -> {:error, reason}
     end

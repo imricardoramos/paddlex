@@ -1,10 +1,5 @@
 defmodule Paddle.LicenseTest do
-  use ExUnit.Case
-
-  setup do
-    bypass = Bypass.open(port: 12_345)
-    {:ok, bypass: bypass}
-  end
+  use Paddle.Case
 
   test "generate license", %{bypass: bypass} do
     Bypass.expect(bypass, fn conn ->

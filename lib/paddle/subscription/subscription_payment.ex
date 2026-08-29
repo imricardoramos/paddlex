@@ -1,6 +1,6 @@
 defmodule Paddle.SubscriptionPayment do
   @moduledoc """
-  SubscriptionPayment
+  List and reschedule payments related to subscriptions.
   """
   @type t :: %__MODULE__{
           id: integer,
@@ -49,8 +49,8 @@ defmodule Paddle.SubscriptionPayment do
       }]}
   """
   @spec list(list_args) :: {:ok, [t()]} | {:error, Paddle.Error.t()}
-  def list(_opts \\ []) do
-    case Paddle.Request.post("/2.0/subscription/payments") do
+  def list(opts \\ []) do
+    case Paddle.Request.post("/2.0/subscription/payments", %{}, opts) do
       {:ok, list} -> {:ok, Enum.map(list, &Paddle.Helpers.map_to_struct(&1, __MODULE__))}
       {:error, reason} -> {:error, reason}
     end
@@ -66,9 +66,9 @@ defmodule Paddle.SubscriptionPayment do
       Paddle.SubscriptionPayment.reschedule(10, ~D[2015-10-15])
       {:ok, nil}
   """
-  @spec reschedule(integer, Date.t()) :: {:ok, nil} | {:error, Paddle.Error.t()}
-  def reschedule(payment_id, date) do
+  @spec reschedule(integer, Date.t(), keyword()) :: {:ok, nil} | {:error, Paddle.Error.t()}
+  def reschedule(payment_id, date, opts \\ []) do
     params = %{payment_id: payment_id, date: Date.to_string(date)}
-    Paddle.Request.post("/2.0/subscription/payments_reschedule", params)
+    Paddle.Request.post("/2.0/subscription/payments_reschedule", params, opts)
   end
 end

@@ -21,7 +21,7 @@ Add `paddlex` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:paddlex, "~> 0.1.1"}
+    {:paddlex, "~> 0.2.0"}
   ]
 end
 ```
@@ -30,23 +30,35 @@ end
 
 ### Configuration
 
-Configure lib the credentials obtained from the Paddle Dashboard
+Configure the library with the credentials obtained from the Paddle Dashboard:
 
-```
+```elixir
 # config/dev.exs
 config :paddlex,
-  environment: :sandbox
-  vendor_id: "YOUR SANBOX VENDOR ID (as number)"
-  vendor_auth_code: 'YOUR SANDBOX VENDOR AUTH CODE'
+  environment: :sandbox,
+  vendor_id: 12345,
+  vendor_auth_code: "YOUR SANDBOX VENDOR AUTH CODE"
 ```
 
-```
+```elixir
 # config/prod.exs
 config :paddlex,
-  environment: :production
-  vendor_id: "YOUR PRODUCTION VENDOR ID (as number)"
-  vendor_auth_code: 'YOUR PRODUCTION VENDOR AUTH CODE'
+  environment: :production, # the default
+  vendor_id: 12345,
+  vendor_auth_code: "YOUR PRODUCTION VENDOR AUTH CODE"
 ```
+
+Every API function also accepts a trailing keyword list to override
+configuration per call — useful for multi-tenant apps or tests:
+
+```elixir
+Paddle.Product.list(vendor_id: 67890, vendor_auth_code: "...")
+Paddle.Coupon.create(params, vendors_base_url: "http://localhost:4001/api")
+```
+
+Supported override keys: `:vendor_id`, `:vendor_auth_code`, `:environment`,
+`:vendors_base_url`, `:checkout_base_url`, and `:req_options` (merged into the
+underlying [Req](https://hexdocs.pm/req) request).
 
 ### Examples
 

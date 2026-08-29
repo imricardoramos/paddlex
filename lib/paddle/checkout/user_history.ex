@@ -1,6 +1,6 @@
 defmodule Paddle.UserHistory do
   @moduledoc """
-  UserHistory
+  Request a link to the transaction history of a customer, sent to their email.
   """
   @doc """
   Send the customer an order history and license recovery email
@@ -27,6 +27,6 @@ defmodule Paddle.UserHistory do
       |> Enum.reject(fn {_, v} -> is_nil(v) end)
       |> Enum.into(%{})
 
-    Paddle.Request.get("/2.0/user/history", params)
+    Paddle.Request.get("/2.0/user/history", params, opts)
   end
 end

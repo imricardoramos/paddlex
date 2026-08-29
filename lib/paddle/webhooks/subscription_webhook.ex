@@ -1,5 +1,5 @@
 defmodule Paddle.Webhooks.SubscriptionWebhook do
   @moduledoc """
-  SubscriptionWebhook
+  Structs for subscription-related webhook payloads sent by Paddle.
   """
 end

@@ -1,6 +1,6 @@
 defmodule Paddle.License do
   @moduledoc """
-  License
+  Generate license codes for your framework products.
   """
   import Paddle.Helpers
 
@@ -26,14 +26,14 @@ defmodule Paddle.License do
           expires_at: ~D[2018-10-10]
       }}
   """
-  @spec generate(params) :: {:ok, t} | {:error, Paddle.Error.t()}
+  @spec generate(params, keyword()) :: {:ok, t} | {:error, Paddle.Error.t()}
         when params: %{
                :product_id => number,
                :allowed_uses => integer,
                optional(:expires_at) => Date.t()
              }
-  def generate(params) do
-    case Paddle.Request.post("/2.0/product/generate_license", params) do
+  def generate(params, opts \\ []) do
+    case Paddle.Request.post("/2.0/product/generate_license", params, opts) do
       {:ok, license} ->
         {:ok,
          Paddle.Helpers.map_to_struct(license, __MODULE__)
